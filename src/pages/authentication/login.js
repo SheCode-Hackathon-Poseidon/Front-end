@@ -7,9 +7,36 @@ import Checkbox from '@mui/material/Checkbox'
 import Link from '@mui/material/Link'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
+import userStore from '../../stores/user'
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
+import {login} from '../../api/auth'
 
 export default function LogIn() {
-  const drawerWidth = 240;
+    const navigate = useNavigate()
+    const { setDataUser } = userStore()
+
+    const [Email, setEmail] = React.useState('')
+    const [Password, setPassword] = React.useState('')
+
+    const handleSubmit = async () => {
+        // const res = await login({ email: Email, password: Password })
+       
+        // if (res?.data?.message === 'Email is required!' || res?.data?.message === 'Password is required!') {
+        // toast.error('Email or Password is empty!')
+        // } else if (res?.data?.message === 'User not found!') {
+        // toast.error('User is not exists!')
+        // } else if (res?.data?.message === 'Incorrect password!') {
+        // toast.error('Incorrect password!')
+        // } else if (res?.data?.message === 'Login successfully!') {
+        setDataUser({user:"Minh", token:"123"})
+        navigate('/')
+        toast.success('Login successfully!')
+        // } else {
+        // toast.error('There is an error!')
+        // }
+    }
+
   return (
     <Container>
         <Box
@@ -31,7 +58,7 @@ export default function LogIn() {
             autoComplete="email"
             autoFocus
             size="small"
-            // onChange={(newValue) => setEmail(newValue.target.value)}
+            onChange={(newValue) => setEmail(newValue.target.value)}
           />
           <TextField
             variant="outlined"
@@ -43,10 +70,10 @@ export default function LogIn() {
             id="password"
             autoComplete="current-password"
             size="small"
-            // onChange={(newValue) => setPassword(newValue.target.value)}
+            onChange={(newValue) => setPassword(newValue.target.value)}
           />
           <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
-          <Button type="submit" fullWidth variant="contained" sx={{ mt: 2, mb: 2 }}>
+          <Button type="submit" fullWidth variant="contained" sx={{ mt: 2, mb: 2 }} onClick={handleSubmit}>
             LOG IN
           </Button>
         </Box>
