@@ -116,26 +116,39 @@
 // export default CreatePost;
 
 import React, { useState } from 'react';
-import { TextField, Button, Select, MenuItem, FormControl, InputLabel, Grid } from '@mui/material';
 import userStore from '../stores/user'
-import { Autocomplete, Box, Container, Stack, Typography} from '@mui/material'
+import { Autocomplete, Box, Container, Stack} from '@mui/material'
 import Layout from '../components/layout/layout'
 import { toast } from 'react-toastify'
 import { Send } from '@mui/icons-material'
 import { createPost } from '../api/post'
+import { Select, Space, Input, Row, Col, Typography, Card, Button } from 'antd';
 
 import moment from 'moment'
 import { useNavigate } from 'react-router-dom'
 
+const { TextArea } = Input;
+const { Title } = Typography;
+
+  
+
 export default function CreatePost(){
+    const centeredForm = {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+        width: "100vw"
+    }
+
     const { user } = userStore((state) => state)
     const navigate = useNavigate()
 
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
-    const [status, setStatus] = useState('');
-    const [shareMode, setShareMode] = useState('');
-    const [tag, setTag] = useState('')
+    const [status, setStatus] = useState('todo');
+    const [shareMode, setShareMode] = useState('public');
+    const [tag, setTag] = useState('Sức khỏe')
   
     const handleCKEditorState = (event, editor) => {
       const data = editor.getData()
@@ -166,15 +179,14 @@ export default function CreatePost(){
       const now = moment().format('YYYY-MM-DD HH:mm:ss')
   
       const res = await createPost({
-        id: user.ID,
+        token: window.user_token,
         name: name,
         description: description,
         status: status,
-        create_at: now,
-        updated_at: now,
         share_mode: shareMode,
         tag: tag
       })
+      console.log("Submit create post ", res)
   
       if (name === '' || description === '') {
         toast.error('Please fill up all attributes!')
@@ -182,98 +194,105 @@ export default function CreatePost(){
     }
   
     return (
-      <div border-style='solid'>
-        <Container
-            maxWidth="sm"
-            sx={{
-            mt: 10,
-            }}
-        >
+    <div style={centeredForm}>
+        <Card style={{backgroundColor: "#F8F8F8", }}>
+            <div style={{justifyContent: 'center', alignItems: 'center'}}>
+            <Space direction="vertical" size="middle" style={{ display: 'flex', height: '100%', width: '100%', marginTop: '100px'}}>
+                <Row>
+                    <Col  >
+                        <Title level={3}>Tạo mục tiêu</Title>
+                    </Col>
+                </Row>
+                
+                <Row>
+                    <Col span={24}>
+                        <Input 
+                            placeholder="Tên mục tiêu" 
+                            onChange={(e) => {
+                                setName(e.target.value)
+                            }}
+                        />
+                    </Col>
+                </Row>
 
-        <Box sx={{ marginBottom: 2 }}>
-        <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
-            Create a new project
-        </Typography>
-        </Box>
+                <Row>
+                    <Col span={24}>
+                        <TextArea rows={4} placeholder="Mô tả" onChange={(e) => {
+                            setDescription(e.target.value)
+                        }} />
+                    </Col>
+                </Row>
 
-        <Stack direction="column" spacing={2}>
-            <Box sx={{ display: 'flex', flexDirection: 'column'}}>
-                <TextField
-                variant="outlined"
-                label="Name"
-                id="name"
-                value={name}
-                size="normal"
-                sx={{ backgroundColor:'#efefef'}}
-                onChange={(e) => {
-                    setName(e.target.value)
-                }}
-                />
-            </Box>
+                <Row >
+                    <Col span={24}>
+                        <Row justify="space-between">
+                            <Col span={8}>
+                                <Space wrap>
+                                    <Select
+                                        defaultValue="todo"
+                                        style={{ width: 120 }}
+                                        options={[
+                                            { value: 'todo', label: 'Dự định' },
+                                            { value: 'doing', label: 'Đang thực hiện' },
+                                            { value: 'finished', label: 'Đã hoàn thành' },
+                                        ]}
+                                        onChange={(value) => { setStatus(value)
+                                        console.log("Status ", value) }}
 
-            <Box sx={{ display: 'flex', flexDirection: 'column'}}>
-                <TextField
-                variant="outlined"
-                label="Description"
-                id="description"
-                value={description}
-                size="normal"
-                sx={{ backgroundColor:'#efefef'}}
-                onChange={(e) => {
-                    setDescription(e.target.value)
-                }}
-                />
-            </Box>
+                                    />
+                                </Space>
+                            </Col>
+                            <Col span={8}>
+                                <Space wrap>
+                                    <Select
+                                        defaultValue="public"
+                                        style={{ width: 120 }}
+                                        options={[{ value: 'public', label: 'Public' },
+                                            { value: 'private', label: 'Private' }
+                                        ]}
+                                        onChange={(value) => { 
+                                            setShareMode(value) 
+                                            console.log("share mode ", value) }
+                                        }
 
-            <FormControl fullWidth margin="normal">
-                <InputLabel id="status-label">Status</InputLabel>
-                <Select
-                    id="status"
-                    value={status}
-                    onChange={handleStatusChange}
-                    labelId="status-label"
-                    sx={{ backgroundColor:'#efefef'}}
-                >
-                    <MenuItem value="todo">To do</MenuItem>
-                    <MenuItem value="doing">Doing</MenuItem>
-                    <MenuItem value="finished">Finished</MenuItem>
-                </Select>
-            </FormControl>
+                                    />
+                                </Space>
+                            </Col>
 
-            <FormControl fullWidth margin="normal">
-                <InputLabel id="share-mode-label">Share Mode</InputLabel>
-                <Select
-                    id="shareMode"
-                    value={shareMode}
-                    onChange={handleShareModeChange}
-                    labelId="share-mode-label"
-                    sx={{ backgroundColor:'#efefef'}}
-                >
-    \                  <MenuItem value="public">Public</MenuItem>
-                    <MenuItem value="private">Private</MenuItem>
-                </Select>
-            </FormControl>
+                            <Col span={8}>
+                                <Space wrap>
+                                    <Select
+                                        defaultValue="Sức khỏe"
+                                        style={{ width: 120 }}
+                                        options={[
+                                            { value: 'Sức khỏe', label: 'Sức khỏe' },
+                                            { value: 'Học tập', label: 'Học tập' },
+                                            { value: 'Dự án', label: 'Dự án' },
+                                            { value: 'Phát triển bản thân', label: 'Phát triển bản thân' },
+                                        ]}
+                                        onChange={(value) => { setTag(value) }}
+                                    />
+                                </Space>
+                            
+                            </Col>
+                        </Row>
+                    </Col>
+                    
+                </Row>
 
-            <FormControl fullWidth margin="normal">
-                <InputLabel id="share-tag-label">Tag</InputLabel>
-                <Select
-                    id="tag"
-                    value={tag}
-                    onChange={handleTagChange}
-                    labelId="share-tag-label"
-                    sx={{ backgroundColor:'#efefef'}}
-                >
-                    <MenuItem value="public">Java</MenuItem>
-                    <MenuItem value="private">CPP</MenuItem>
-                </Select>
-            </FormControl>
-            <Stack direction="row" spacing={2} sx={{ minWidth: 600, justifyContent: 'flex-end' }}>
-                <Button variant="contained" onClick={handleSubmitPost} endIcon={<Send />}>
-                Post
-                </Button>
-            </Stack>
-        </Stack>
-        </Container>
+                <Row>
+                    <Col span={24}>
+                        <Button type="primary" shape="round" style={{width: '100%'}} 
+                        onClick={() => handleSubmitPost()}>
+                            Thêm
+                        </Button>
+                    </Col>
+                </Row>
+            </Space>
+            </div>
+            
+        </Card>
+        
       </div>
     )
   }

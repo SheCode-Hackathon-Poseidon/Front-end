@@ -27,6 +27,26 @@ export default class HttpUtility {
     )
   }
 
+  static async sendRequestWithObject(apiUrl, bodyObject,  method = 'POST') {
+    try {
+      const response = await axios({
+        method,
+        url: apiUrl,
+        data: bodyObject,
+        // You can add headers if needed, e.g., content-type, authentication headers, etc.
+      });
+  
+      // You can handle the response here, e.g., logging, error checking, etc.
+      console.log('Response:', response.data);
+  
+      return response.data;
+    } catch (error) {
+      // Handle any errors that occurred during the request.
+      console.error('Error:', error.message);
+      throw error; // You can handle or rethrow the error as needed.
+    }
+  }
+
   static async post(endpoint, data, headers) {
     const config = data ? { data, headers } : undefined
 

@@ -20,21 +20,18 @@ export default function LogIn() {
     const [Password, setPassword] = React.useState('')
 
     const handleSubmit = async () => {
-        // const res = await login({ email: Email, password: Password })
+        const res = await login({ email: Email, password: Password })
+        console.log("log in ", res)
        
-        // if (res?.data?.message === 'Email is required!' || res?.data?.message === 'Password is required!') {
-        // toast.error('Email or Password is empty!')
-        // } else if (res?.data?.message === 'User not found!') {
-        // toast.error('User is not exists!')
-        // } else if (res?.data?.message === 'Incorrect password!') {
-        // toast.error('Incorrect password!')
-        // } else if (res?.data?.message === 'Login successfully!') {
-        setDataUser({user:"Minh", token:"123"})
-        navigate('/')
-        toast.success('Login successfully!')
-        // } else {
-        // toast.error('There is an error!')
-        // }
+       if (res?.exitcode === 0) {
+          toast.success('Login success')
+          window.user_token = res?.token;
+          navigate("/createpost")
+        } else {
+          toast.error('There is an error!')
+        }
+
+
     }
 
   return (
