@@ -8,6 +8,8 @@ const themeColors = {
     secondary: '#146C94',
     error: '#FF4D4F',
     lightSilver: '#BFBFBF',
+    black: '#FFFFFF',
+    white: '#000000',
   },
 } 
 
@@ -32,7 +34,7 @@ const themeOptions = {
     },
   },
   typography: {
-    fontFamily: ['Montserrat', 'sans-serif'].join(','),
+    fontFamily: ['sans-serif'].join(','),
     fontSize: 14,
   },
   components: {
@@ -48,7 +50,7 @@ const themeOptions = {
               fontWeight: 500,
               lineHeight: 1.6,
               color: themeColors.color.secondary,
-              fontFamily: 'Montserrat',
+            //   fontFamily: 'Montserrat',
               '&::placeholder': {
                 color: themeColors.color.lightSilver,
                 opacity: 1,
@@ -65,7 +67,6 @@ const themeOptions = {
     MuiButton: {
       styleOverrides: {
         root: {
-          fontFamily: 'Montserrat',
           padding: '4px 8px',
           borderRadius: '2px',
           textTransform: 'inherit',
