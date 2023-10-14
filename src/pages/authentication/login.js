@@ -40,8 +40,8 @@ export default function LogIn() {
   return (
     <Container>
         <Box
-        boxShadow={3}
-        sx={{ marginTop: 20, border: 2, p: 4, display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+        boxShadow={2}
+        sx={{ marginTop: 12, border: 1, p: 4, display: 'flex', flexDirection: 'column', alignItems: 'center' }}
       >
         <Typography component="h1" variant="h3" sx={{ marginBottom: 2, fontWeight: 'bold' }}>
           Log In
@@ -81,12 +81,7 @@ export default function LogIn() {
         <Link href="/" variant="body1" underline="hover" sx={{ m: 1, fontWeight: '700' }}>
           Forgot password?
         </Link>
-        <Typography variant="body1">
-          Do not have an account?{' '}
-          <Link href="/signup" underline="hover" fontWeight={700}>
-            Sign Up
-          </Link>
-        </Typography>
+      
       </Box>
     </Container>
   )
