@@ -8,13 +8,13 @@ const themeColors = {
     secondary: '#146C94',
     error: '#FF4D4F',
     lightSilver: '#BFBFBF',
-    black: '#FFFFFF',
+black: '#FFFFFF',
     white: '#000000',
   },
 } 
 
 // Override style Mui
-const themeOptions = {
+const themeOptions: ThemeOptionsOld = {
   ...themeColors,
   palette: {
     primary: {
@@ -34,7 +34,7 @@ const themeOptions = {
     },
   },
   typography: {
-    fontFamily: ['sans-serif'].join(','),
+    fontFamily: ['Montserrat', 'sans-serif'].join(','),
     fontSize: 14,
   },
   components: {
@@ -50,7 +50,7 @@ const themeOptions = {
               fontWeight: 500,
               lineHeight: 1.6,
               color: themeColors.color.secondary,
-            //   fontFamily: 'Montserrat',
+              fontFamily: 'Montserrat',
               '&::placeholder': {
                 color: themeColors.color.lightSilver,
                 opacity: 1,
@@ -67,6 +67,7 @@ const themeOptions = {
     MuiButton: {
       styleOverrides: {
         root: {
+          fontFamily: 'Montserrat',
           padding: '4px 8px',
           borderRadius: '2px',
           textTransform: 'inherit',
@@ -83,5 +84,4 @@ const themeOptions = {
     },
   },
 }
-
 export const theme = createTheme({ ...themeColors, ...themeOptions })
